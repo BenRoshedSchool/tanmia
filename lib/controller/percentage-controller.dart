@@ -337,6 +337,7 @@ class PercentageController extends GetxController{
 
   void calculatePercentPerFamily(){
    percentPerFamily = waredToZawaida / totalFamily;
+   update();
   }
 
   void sumAlTorod(){
@@ -357,4 +358,22 @@ class PercentageController extends GetxController{
    update();
   }
 
+  void onChangeNumberFamily(){
+   totalFamilyTaiba = safeParseInt(ayashlengthControiller.text.toString());
+   totalFamily =
+   totalFamilyTaiba +
+       safeParseInt(bassatcontrooler.text.toString()) +
+       safeParseInt(zuhairNassarController.text.toString()) +
+       safeParseInt(ebrahhemZaqoutController2.text.toString()) +
+       safeParseInt(ebrahhemZaqoutController.text.toString()) +
+       safeParseInt(muhammedAlhamidyController.text.toString()) +
+       safeParseInt(muhammedNamrotyController.text.toString()) +
+       safeParseInt(khalilController.text.toString()) +
+       safeParseInt(muhamedQashlanController.text.toString()) +
+       safeParseInt(assadAidController.text.toString()) +
+       safeParseInt(mezydController.text.toString()) +
+       safeParseInt(ahmedSultanController.text.toString()) ;
+
+   update();
+  }
 }

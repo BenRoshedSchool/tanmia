@@ -271,6 +271,9 @@ return true;
                                       {
 
                                         if(controller.initialRadioValueStatus == "متزوج/ة") {
+                                          print("residen ${controller.residence_status}");
+                                          print("controller.residence_status");
+
                                           Map<String , dynamic> usersInfoObject= {
                                             'id1': int.parse(id1TextEditingController.text),
                                             'id2': int.parse(id2TextEditingController.text),
@@ -280,11 +283,13 @@ return true;
                                             'number_of_family': int.parse(numberOfFamilyTextEditingController.text),
                                             'original_residence': lastHouseTextEditingController.text,
                                             'primery_key': key.toString(),
-                                            'residence_status  ': controller.residence_status, // Note: key contains extra space
+                                            'residence_status': controller.residence_status, // Note: key contains extra space
                                             'shelter': username,
                                             'status': controller.initialRadioValueStatus,
                                             'mobile': int.parse(mobileTextEditingController.text),
                                           };
+
+
                                           firebaseController.addUser(username, key.toString(), usersInfoObject , context);
                                           ScaffoldMessenger.of(context).showSnackBar(
                                             SnackBar(
@@ -372,7 +377,7 @@ return true;
                                             'number_of_family': int.parse(numberOfFamilyTextEditingController.text),
                                             'original_residence': lastHouseTextEditingController.text,
                                             'primery_key': key.toString(),
-                                            'residence_status  ': controller.residence_status, // Note: key contains extra space
+                                            'residence_status': controller.residence_status, // Note: key contains extra space
                                             'shelter': username,
                                             'status': controller.initialRadioValueStatus,
                                             'mobile': int.parse(mobileTextEditingController.text),

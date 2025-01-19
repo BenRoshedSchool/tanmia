@@ -330,6 +330,10 @@ class _PercentageScreen extends State<PercentageScreen> {
                                 child: TextField(
                                   onChanged:(v){
                                     controller.editTotalFamilyAfterChangeByTextField();
+                                    percentageController.calculatePercentPerFamily();
+                                    percentageController.sumAlTorod();
+                                    percentageController.onChangeNumberFamily();
+
                                   },
                                   controller: controller.bassatcontrooler,
                                   textAlign: TextAlign.center,
@@ -348,6 +352,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                 child: TextField(
                                   onChanged: (v){
                                     controller.editTotalFamilyAfterChangeByTextField();
+                                    percentageController.calculatePercentPerFamily();
+                                    percentageController.sumAlTorod();
+                                    percentageController.onChangeNumberFamily();
 
                                   },
 
@@ -450,7 +457,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                             child: TextField(
                                               onChanged: (v){
                                                 controller.editTotalFamilyAfterChangeByTextField();
-
+                                                percentageController.calculatePercentPerFamily();
+                                                percentageController.sumAlTorod();
+                                                percentageController.onChangeNumberFamily();
                                               },
                                               controller: controller.ayashlengthControiller,
                                               textAlign: TextAlign.center,
@@ -470,7 +479,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                               controller: controller.ayashlengthControiller,
                                               onChanged: (v){
                                                 controller.editTotalFamilyAfterChangeByTextField();
-
+                                                percentageController.calculatePercentPerFamily();
+                                                percentageController.sumAlTorod();
+                                                percentageController.onChangeNumberFamily();
                                               },
                                               textAlign: TextAlign.center,
                                               keyboardType: TextInputType.number,
@@ -751,9 +762,10 @@ class _PercentageScreen extends State<PercentageScreen> {
                                               child: Center(
                                                   child: TextField(
                                                     onChanged:(v){
-                                                      setState(() {
+                                                      percentageController.calculatePercentPerFamily();
+                                                      percentageController.sumAlTorod();
+                                                      percentageController.onChangeNumberFamily();
 
-                                                      });
                                                     },
                                                     controller: controller.zuhairNassarController,
                                                     textAlign: TextAlign.center,
@@ -772,6 +784,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                                   child: TextField(
                                                     onChanged: (v){
                                                       controller.editTotalFamilyAfterChangeByTextField();
+                                                      percentageController.calculatePercentPerFamily();
+                                                      percentageController.sumAlTorod();
+                                                      percentageController.onChangeNumberFamily();
 
                                                     },
                                                     controller: controller.ebrahhemZaqoutController2,
@@ -791,6 +806,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                                   child: TextField(
                                                     onChanged: (v){
                                                       controller.editTotalFamilyAfterChangeByTextField();
+                                                      percentageController.calculatePercentPerFamily();
+                                                      percentageController.sumAlTorod();
+                                                      percentageController.onChangeNumberFamily();
 
                                                     },
                                                     controller: controller.ebrahhemZaqoutController,
@@ -810,6 +828,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                                   child: TextField(
                                                     onChanged: (v){
                                                       controller.editTotalFamilyAfterChangeByTextField();
+                                                      percentageController.calculatePercentPerFamily();
+                                                      percentageController.sumAlTorod();
+                                                      percentageController.onChangeNumberFamily();
 
                                                     },
                                                     controller: controller.muhammedAlhamidyController,
@@ -998,6 +1019,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                             child: TextField(
                                               onChanged: (v){
                                                 controller.editTotalFamilyAfterChangeByTextField();
+                                                percentageController.calculatePercentPerFamily();
+                                                percentageController.sumAlTorod();
+                                                percentageController.onChangeNumberFamily();
 
                                               },
                                               controller: controller.muhammedNamrotyController,
@@ -1105,6 +1129,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                             child: TextField(
                                               onChanged: (v){
                                                 controller.editTotalFamilyAfterChangeByTextField();
+                                                percentageController.calculatePercentPerFamily();
+                                                percentageController.sumAlTorod();
+                                                percentageController.onChangeNumberFamily();
 
                                               },
                                               controller: controller.khalilController,
@@ -1290,6 +1317,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                                   child: TextField(
                                                     onChanged: (v){
                                                       controller.editTotalFamilyAfterChangeByTextField();
+                                                      percentageController.calculatePercentPerFamily();
+                                                      percentageController.sumAlTorod();
+                                                      percentageController.onChangeNumberFamily();
 
                                                     },
                                                     controller: controller.muhamedQashlanController,
@@ -1309,6 +1339,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                                   child: TextField(
                                                     onChanged: (v){
                                                       controller.editTotalFamilyAfterChangeByTextField();
+                                                      percentageController.calculatePercentPerFamily();
+                                                      percentageController.sumAlTorod();
+                                                      percentageController.onChangeNumberFamily();
 
                                                     },
                                                     controller: controller.assadAidController,
@@ -1556,6 +1589,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                                     controller: controller.ahmedSultanController,
                                                     onChanged: (v){
                                                       controller.editTotalFamilyAfterChangeByTextField();
+                                                      percentageController.calculatePercentPerFamily();
+                                                      percentageController.sumAlTorod();
+                                                      percentageController.onChangeNumberFamily();
 
                                                     },
                                                     textAlign: TextAlign.center,
@@ -1574,6 +1610,9 @@ class _PercentageScreen extends State<PercentageScreen> {
                                                   child: TextField(
                                                     onChanged: (v){
                                                       controller.editTotalFamilyAfterChangeByTextField();
+                                                      percentageController.calculatePercentPerFamily();
+                                                      percentageController.sumAlTorod();
+                                                      percentageController.onChangeNumberFamily();
 
                                                     },
                                                     controller: controller.mezydController,

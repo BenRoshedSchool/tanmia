@@ -76,7 +76,6 @@ class Constant{
 
     if (alshoab == "حي أبو بكر و الرحمة") {
 
-      print("شعبة أبو بكر و الرحمة");
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "baker");
 
 
@@ -108,19 +107,19 @@ class Constant{
 
     Stream<Map<String, dynamic>>? userStream;
 
-    if (alshoab == "شعبة أبو بكر و الرحمة") {
+    if (alshoab == "حي أبو بكر و الرحمة") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "baker");
-    } else if (alshoab == "شعبة أبو عبيدة") {
+    } else if (alshoab == "حي أبو عبيدة") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "ubaida");
-    } else if (alshoab == "شعبة الأنصار الغربية") {
+    } else if (alshoab == "حي الأنصار الغربية") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "ansa");
-    } else if (alshoab == "شعبة الأنصار الشرقية") {
+    } else if (alshoab == "حي الأنصار الشرقية") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "ansa2");
-    } else if (alshoab == "شعبة الفاروق") {
+    } else if (alshoab == "حي الفاروق") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "faro");
-    } else if (alshoab == "شعبة السوارحة") {
+    } else if (alshoab == "حي السوارحة") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "saoar");
-    } else if (alshoab == "شعبة طيبة") {
+    } else if (alshoab == "حي طيبة") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "taib");
     } else {
       return [];
@@ -212,31 +211,31 @@ class Constant{
             listResult.add(name1);
             switch(sho){
 
-              case "شعبة أبو بكر و الرحمة":
+              case "حي أبو بكر و الرحمة":
                 listResult.add("baker");
                 break;
 
-              case "شعبة أبو عبيدة":
+              case "حي أبو عبيدة":
                 listResult.add("ubaida");
                 break;
 
-              case "شعبة الأنصار الغربية":
+              case "حي الأنصار الغربية":
                 listResult.add("ansa");
                 break;
 
-              case "شعبة الأنصار الشرقية":
+              case "حي الأنصار الشرقية":
                 listResult.add("ansa2");
                 break;
 
-              case "شعبة الفاروق":
+              case "حي الفاروق":
                 listResult.add("faro");
                 break;
 
-              case "شعبة السوارحة":
+              case "حي السوارحة":
                 listResult.add("saoar");
                 break;
 
-              case "شعبة طيبة":
+              case "حي طيبة":
                 listResult.add("taib");
                 break;
             }
