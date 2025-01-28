@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,19 +19,19 @@ export 'constant_web.dart' if (dart.library.html) 'constant_mobile.dart';
 class Constant{
 
   static List<String> shoab = ["حي أبو بكر و الرحمة" , "حي أبو عبيدة" , "حي الأنصار الغربية" , "حي الأنصار الشرقية" , "حي الفاروق" , "حي السوارحة" ,  "حي طيبة"];
-  static List<String> manadeebList =
-    ["عبد نطط" , "عمرو سالم" , "محمد التعبان" ,
-    "زهير نصار" , "أحمد أبو سويرح" ,
-    "أحمد سلطان" , "أسعد عيد" ,
-    "ابراهيم زقوت" , "بسام الخطيب" ,
-    "خليل اسعيفان" , "ابراهيم زقوت الرواد" ,
-    "سلمان التعبان" , "شادي أبو ركاب" ,
-    "علي العرمي" , "محمد القرعان" ,
-    "مازن أبو نحل" , "محمد النمروطي" ,
-    "محمد الحميدي" , "محمد قشلان" ,
-    "مهند أبو سماحة" ,
-    "مزيد محمود أبو مزيد" , "مصطفى عياش"  , "أبو راشد",
-  ];
+  // static List<String> manadeebList =
+  //   ["عبد نطط" , "عمرو سالم" , "محمد التعبان" ,
+  //   "زهير نصار" , "أحمد أبو سويرح" ,
+  //   "أحمد سلطان" , "أسعد عيد" ,
+  //   "ابراهيم زقوت" , "بسام الخطيب" ,
+  //   "خليل اسعيفان" , "ابراهيم زقوت الرواد" ,
+  //   "سلمان التعبان" , "شادي أبو ركاب" ,
+  //   "علي العرمي" , "محمد القرعان" ,
+  //   "مازن أبو نحل" , "محمد النمروطي" ,
+  //   "محمد الحميدي" , "محمد قشلان" ,
+  //   "مهند أبو سماحة" ,
+  //   "مزيد محمود أبو مزيد" , "مصطفى عياش"  , "أبو راشد",
+  // ];
 
   // static List<String> abubakerList = ["عبد نطط" , "عمرو سالم" , "محمد التعبان" ,
   //   "زهير نصار" ,  "ابراهيم زقوت" , "ابراهيم زقوت الرواد" ,
@@ -281,5 +282,19 @@ class Constant{
       },
     );
   }
+  static
+  Future<void> makePhoneCall(String phoneNumber) async {
+    final Uri url = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
 
+    try {
+      // Directly launch the URL
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      print("Error making phone call: $e");
+      // Optionally show a message to the user
+    }
+  }
 }

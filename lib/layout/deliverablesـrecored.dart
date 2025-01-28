@@ -42,6 +42,7 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
   TextEditingController searchController = TextEditingController();
   String searchQuery = '';
   bool isInternet=false;
+  bool canReplac=false;
 
   @override
   void initState()  {
@@ -53,6 +54,7 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
       });
     });
     checkInter();
+    canReplaceFamily();
 
   }
 
@@ -187,7 +189,12 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
                                     children: [
                                       Text(map!["id1"].toString(), style: TextStyle(fontSize: 16)),
                                       SizedBox(height: 10),
-                                      Text(map!["mobile"].toString(), style: TextStyle(fontSize: 16)),
+                                      InkWell(
+                                        onTap: (){
+                                          Constant.makePhoneCall(map!["mobile"].toString());
+
+                                        },
+                                          child: Text(map!["mobile"].toString(), style: TextStyle(fontSize: 16))),
                                     ],
                                   ),
                                   Expanded(child: SizedBox(width: 10)),
@@ -335,7 +342,12 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
                                     children: [
                                       Text(map!["id1"].toString(), style: TextStyle(fontSize: 16)),
                                       SizedBox(height: 10),
-                                      Text(map!["mobile"].toString(), style: TextStyle(fontSize: 16)),
+                                      InkWell(
+                                          onTap: (){
+                                            Constant.makePhoneCall(map!["mobile"].toString());
+
+                                          },
+                                          child: Text(map!["mobile"].toString(), style: TextStyle(fontSize: 16))),
                                     ],
                                   ),
                                   Expanded(child: SizedBox(width: 10)),
@@ -389,6 +401,10 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
                                             ),
                                           ),
                                           SizedBox(height: 15),
+
+
+                                          //الاستبدال
+                                     canReplac ?
                                           ElevatedButton(
                                             onPressed: () async {
                                               bool isCheck = await   Constant.checkInternetConnection();
@@ -412,7 +428,7 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
                                               }
                                               },
                                             child: Text("استبدال"),
-                                          ),
+                                          ) : SizedBox(),
                                         ],
                                       );
                                     },
@@ -436,5 +452,15 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
         ),
       ),
     );
+  }
+
+  void canReplaceFamily() async {
+    // Perform the async operation before calling setState
+    bool result = await firebaseController.getFieldValue("abilityـaddـbeneficiaries", "add", "status");
+
+    // Now update the state with the result
+    setState(() {
+      canReplac = result;  // Update your state with the value
+    });
   }
 }

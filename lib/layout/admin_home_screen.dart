@@ -33,13 +33,17 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
   final LocalDataBaseController  localDataBaseController= Get.put(LocalDataBaseController());
   final LoginController loginController = Get.put(LoginController());
 
+  bool light = true;
+  String status= "مفعل";
+
+
+
 
   @override
-  void initState() {
-    // TODO: implement initState
+  void initState()  {
     super.initState();
-    print("initi");
-    
+
+    canReplaceFamily();
 
   }
 
@@ -100,6 +104,34 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+
+                    Text("تعطيل و تفعيل خاصية الاستبدال للمناديب" , style: TextStyle(fontSize: 18 , fontWeight: FontWeight.bold) ,),
+                    SizedBox(height: 15,),
+
+                    Switch(
+                  // This bool value toggles the switch.
+                  value: light,
+                  activeColor: Colors.red,
+                  onChanged: (bool value) {
+                    // This is called when the user toggles the switch.
+                    setState(() {
+                      light = value;
+                      firebaseController.updateBooleanField("abilityـaddـbeneficiaries", "add", "status", value);
+                      if(status == "معطل"){
+                        status = "مفعل";
+                      }else{
+                        status = "معطل";
+
+                      }
+                    });
+                  },
+                ),
+
+                    SizedBox(height: 15,),
+                    Text("$status" , style: TextStyle(fontSize: 16 , fontWeight: FontWeight.bold) ,),
+                    SizedBox(height: 15,),
+
+
                     Elevation_Button(
                       function: (){
                         Get.toNamed(Routes.alshoabScreen);
@@ -150,13 +182,13 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
 
 
                     SizedBox( height: 25,) ,
-                    Elevation_Button(
-                      function: () async {
-                       _showDialog(context);
-                      },
-                      backColor: Colors.indigo,
-                      inputText: "انشاء تسليمات للمناديب",
-                      widthButtton: MediaQuery.of(context).size.width,) ,
+                    // Elevation_Button(
+                    //   function: () async {
+                    //    _showDialog(context);
+                    //   },
+                    //   backColor: Colors.indigo,
+                    //   inputText: "انشاء تسليمات للمناديب",
+                    //   widthButtton: MediaQuery.of(context).size.width,) ,
                   ],
                 ),
               ),
@@ -323,6 +355,20 @@ class _Admin_Home_ScreenState extends State<Admin_Home_Screen> {
       controller.text = "${picked.day.toString()}/${picked.month.toString()}/${picked.year.toString()}"; // Format the date as you like
     }
   }
+  void canReplaceFamily() async {
+    // Perform the async operation before calling setState
+    bool result = await firebaseController.getFieldValue("abilityـaddـbeneficiaries", "add", "status");
 
+    // Now update the state with the result
+    setState(() {
+      light = result;  // Update your state with the value
+
+      if(result == false){
+        status="معطل";
+      }else{
+        status = "مفعل";
+      }
+    });
+  }
 
 }
