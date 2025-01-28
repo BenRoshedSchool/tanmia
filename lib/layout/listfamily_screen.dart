@@ -27,6 +27,7 @@ class ListFamily_Screen extends StatefulWidget {
   Map<String , dynamic>? map;
    ListFamily_Screen({this.shoab ,this.username , this.map , this.keys , this.recivefromDeliverablesrRecored});
 
+
   @override
   _ListFamily_ScreenState createState() => _ListFamily_ScreenState();
 }
@@ -42,6 +43,9 @@ class _ListFamily_ScreenState extends State<ListFamily_Screen> {
   String _searchQuery = ''; // Search query variable
   String f = "كشوفات تسليم";
   String h = "recipients";
+
+  // التأكدمن أن الاسم غير مكرر في كشف التسليم
+  bool isRepeated=false;
 
   @override
   Widget build(BuildContext context) {
@@ -504,117 +508,153 @@ class _ListFamily_ScreenState extends State<ListFamily_Screen> {
   }
 
   Future<void> ReplaceUsers(String key , String username , Map<dynamic , dynamic> userMap , dynamic user) async {
-
     try {
       // Convert all necessary fields to String before using them
       String? userPrimeryKey = convertToString(userMap["primery_key"]);
       String? newUserPrimeryKey = convertToString(user["primery_key"]);
 
-      //  استبدال المستفيدين و استبدال primery key
-      print("userMap primery_key: $userPrimeryKey");
-      firebaseController.addUser(username, userPrimeryKey!, user , context);
+      var data = await firebaseController.getDataOnce2(
+          "كشوفات تسليم/${username}/${widget.keys}/recipients");
 
-      // Remove receiving_status from the map
-      userMap.remove("receiving_status");
+      for (var entry in data.entries) {
+        var key = entry.key;
+        var value = entry.value;
 
-      // Add the new user to Firebase
-      print("user primery_key: $newUserPrimeryKey");
-      firebaseController.addUser(username, newUserPrimeryKey!, userMap , context);
+        if (value is Map) {
+          // Check if id1 matches user["id1"]
+          if (value["id1"] == user["id1"]) {
+            setState(() {
+              isRepeated = true;
+            });
 
-      // Create a map for Firebase with proper type handling
-      Map<dynamic , dynamic> map = {
-        "id1": convertToString(user["id1"]),
-        "id2": convertToString(user["id2"]),
-        "mobile": user["mobile"],
-        "name1": user["name1"],
-        "name2": user["name2"],
-        "notes": user["notes"],
-        "number_of_family": user["number_of_family"],
-        "original_residence": user["original_residence"],
-        "primery_key": newUserPrimeryKey, // Ensure it's a String
-        "receiving_status": "لم يتم الاستلام",
-        "residence_status": user["residence_status"],
-        "shelter": user["shelter"],
-        "status": user["status"],
-      };
-
-      // Log the map to verify the data
-      print("Map to Firebase: $map");
-
-      // Delete old user data from Firebase
-      firebaseController.deleteData("/${f}/${username}/${key}/${h}/${userPrimeryKey}");
-
-      // Add new user data to Firebase
-      await firebaseController.addUser(f, "${username}/${key}/${h}/${newUserPrimeryKey}", map, context);
-
-      // Android-specific local database updates
-      if (Platform.isAndroid) {
-        localDataBaseController.database.personDao.deletePersonById(userPrimeryKey);
-
-        // Insert new data into local DB for the first user
-        UserInfoForlocal userInfo = UserInfoForlocal(
-          id1: user["id1"],
-          id2: user["id2"],
-          name1: user["name1"],
-          name2: user["name2"],
-          notes: user["notes"],
-          numberOfFamily: user["number_of_family"],
-          originalResidence: user["original_residence"],
-          primery_key: userPrimeryKey,
-          receiving_status: "لم يتم الاستلام",
-          residenceStatus: user["residence_status"],
-          shelter: user["shelter"],
-          status: user["status"],
-        );
-        localDataBaseController.database.personDao.insertUserInfoForlocal(userInfo);
-
-        // Delete and insert new data for the second user
-        localDataBaseController.database.personDao.deletePersonById(newUserPrimeryKey);
-        UserInfoForlocal userInfo2 = UserInfoForlocal(
-          id1: user["id1"],
-          id2: user["id2"],
-          name1: userMap["name1"],
-          name2: userMap["name2"],
-          notes: userMap["notes"],
-          numberOfFamily: userMap["number_of_family"],
-          originalResidence: userMap["original_residence"],
-          primery_key: newUserPrimeryKey,
-          receiving_status: "لم يتم الاستلام",
-          residenceStatus: userMap["residence_status"],
-          shelter: userMap["shelter"],
-          status: userMap["status"],
-        );
-        localDataBaseController.database.personDao.insertUserInfoForlocal(userInfo2);
-
-        // Update the RecoredRecpients table
-        RecoredRecpients recoredRecip = RecoredRecpients(
-          documentId: key,
-          id1: user["id1"],
-          id2: user["id2"],
-          name1: user["name1"],
-          name2: user["name2"],
-          notes: user["notes"],
-          numberOfFamily: user["number_of_family"],
-          originalResidence: user["original_residence"],
-          primery_key: userPrimeryKey,
-          receiving_status: "لم يتم الاستلام",
-          residenceStatus: user["residence_status"],
-          shelter: user["shelter"],
-          status: user["status"],
-        );
-
-        // Update local database with new data
-        localDataBaseController.database.personDao.deleteRecoredRecipientsById(userPrimeryKey);
-        localDataBaseController.database.personDao.insertRecoredRecpients(recoredRecip);
+            // Break out of the loop
+            break;
+          }
+        }
       }
 
+
+      print( "is repeated    ${isRepeated}");
+
+
+
+      if(isRepeated == false){
+
+        //  استبدال المستفيدين و استبدال primery key
+        print("userMap primery_key: $userPrimeryKey");
+        firebaseController.addUser(username, userPrimeryKey!, user , context);
+
+        // Remove receiving_status from the map
+        userMap.remove("receiving_status");
+
+        // Add the new user to Firebase
+        print("user primery_key: $newUserPrimeryKey");
+        firebaseController.addUser(username, newUserPrimeryKey!, userMap , context);
+
+        // Create a map for Firebase with proper type handling
+        Map<dynamic , dynamic> map = {
+          "id1": convertToString(user["id1"]),
+          "id2": convertToString(user["id2"]),
+          "mobile": user["mobile"],
+          "name1": user["name1"],
+          "name2": user["name2"],
+          "notes": user["notes"],
+          "number_of_family": user["number_of_family"],
+          "original_residence": user["original_residence"],
+          "primery_key": newUserPrimeryKey, // Ensure it's a String
+          "receiving_status": "لم يتم الاستلام",
+          "residence_status": user["residence_status"],
+          "shelter": user["shelter"],
+          "status": user["status"],
+        };
+
+        // Log the map to verify the data
+        print("Map to Firebase: $map");
+
+        // Delete old user data from Firebase
+        firebaseController.deleteData("/${f}/${username}/${key}/${h}/${userPrimeryKey}");
+
+        // Add new user data to Firebase
+        await firebaseController.addUser(f, "${username}/${key}/${h}/${newUserPrimeryKey}", map, context);
+
+        // Android-specific local database updates
+        if (Platform.isAndroid) {
+          localDataBaseController.database.personDao.deletePersonById(userPrimeryKey);
+
+          // Insert new data into local DB for the first user
+          UserInfoForlocal userInfo = UserInfoForlocal(
+            id1: user["id1"],
+            id2: user["id2"],
+            name1: user["name1"],
+            name2: user["name2"],
+            notes: user["notes"],
+            numberOfFamily: user["number_of_family"],
+            originalResidence: user["original_residence"],
+            primery_key: userPrimeryKey,
+            receiving_status: "لم يتم الاستلام",
+            residenceStatus: user["residence_status"],
+            shelter: user["shelter"],
+            status: user["status"],
+          );
+          localDataBaseController.database.personDao.insertUserInfoForlocal(userInfo);
+
+          // Delete and insert new data for the second user
+          localDataBaseController.database.personDao.deletePersonById(newUserPrimeryKey);
+          UserInfoForlocal userInfo2 = UserInfoForlocal(
+            id1: user["id1"],
+            id2: user["id2"],
+            name1: userMap["name1"],
+            name2: userMap["name2"],
+            notes: userMap["notes"],
+            numberOfFamily: userMap["number_of_family"],
+            originalResidence: userMap["original_residence"],
+            primery_key: newUserPrimeryKey,
+            receiving_status: "لم يتم الاستلام",
+            residenceStatus: userMap["residence_status"],
+            shelter: userMap["shelter"],
+            status: userMap["status"],
+          );
+          localDataBaseController.database.personDao.insertUserInfoForlocal(userInfo2);
+
+          // Update the RecoredRecpients table
+          RecoredRecpients recoredRecip = RecoredRecpients(
+            documentId: key,
+            id1: user["id1"],
+            id2: user["id2"],
+            name1: user["name1"],
+            name2: user["name2"],
+            notes: user["notes"],
+            numberOfFamily: user["number_of_family"],
+            originalResidence: user["original_residence"],
+            primery_key: userPrimeryKey,
+            receiving_status: "لم يتم الاستلام",
+            residenceStatus: user["residence_status"],
+            shelter: user["shelter"],
+            status: user["status"],
+          );
+
+          // Update local database with new data
+          localDataBaseController.database.personDao.deleteRecoredRecipientsById(userPrimeryKey);
+          localDataBaseController.database.personDao.insertRecoredRecpients(recoredRecip);
+        }
+
+        // Show a success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Text("تمت الإستبدال بنجاح"),
+          ),
+        );
+      }else{
       // Show a success message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.green,
-          content: Text("تمت الإستبدال بنجاح"),
+          backgroundColor: Colors.redAccent,
+          content: Text("هذا الاسم موجود ضمن الكشف"),
         ),
       );
+    }
+
     } catch (e) {
       print("Error occurred: $e");
       ScaffoldMessenger.of(context).showSnackBar(

@@ -49,9 +49,6 @@ class LocalDataBaseController extends GetxController {
       List<UserInfoForlocal> listUsersForLocal = await database.personDao
           .getUsersFamilyAsFuture(firebaseController.UserName);
 
-
-      print("LENGTH FIREBASE : ${list.length}");
-      print("LENGTH DATABASE : ${listUsersForLocal.length}");
       if (list.length > listUsersForLocal.length) {
         await firebaseController.getDataListStream(firebaseController.UserName)
             .listen((event) {

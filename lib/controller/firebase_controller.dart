@@ -1077,4 +1077,83 @@ update();
       return null;
     }
   }
+
+  Future<Map<dynamic, dynamic>> getDataOnce2(String path) async {
+    try {
+      final ref = FirebaseDatabase.instance.ref(path);
+      final snapshot = await ref.get();
+
+      if (snapshot.exists) {
+        // Check if the data is a List and convert it to a Map if needed
+        if (snapshot.value is List) {
+          List dataList = snapshot.value as List;
+
+          // Convert the List to a Map, excluding null values
+          Map<dynamic, dynamic> dataMap = {};
+          for (var i = 0; i < dataList.length; i++) {
+            if (dataList[i] != null) {
+              dataMap[i] = dataList[i];
+            }
+          }
+          return dataMap;
+        }
+
+        // Return directly if it's already a Map
+        return snapshot.value as Map<dynamic, dynamic>;
+      } else {
+        throw Exception("No data found at the path: $path");
+      }
+    } catch (e) {
+      throw Exception("Failed to fetch data: $e");
+    }
+  }
+
+  /// تعديل صلاحية الاستبدال للمناديب
+  Future<void> updateBooleanField(String collection, String documentId, String fieldName, bool newValue) async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+    try {
+      DocumentReference docRef = _firestore.collection(collection).doc(documentId);
+
+      // Update the field with the new boolean value
+      await docRef.update({
+        fieldName: newValue,
+      });
+      print("Field '$fieldName' updated to $newValue.");
+    } catch (e) {
+      print("Error updating boolean field: $e");
+    }
+  }
+
+
+  // ارجاع قيمة الاستبدال لفتح الصلاحية او غيره
+  Future<bool> getFieldValue(String collection, String documentId, String fieldName) async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+    try {
+      DocumentReference docRef = _firestore.collection(collection).doc(documentId);
+
+      // Get the document snapshot
+      DocumentSnapshot docSnapshot = await docRef.get();
+
+      // Check if the document exists
+      if (docSnapshot.exists) {
+        // Retrieve the value of the field
+        bool fieldValue = docSnapshot.get(fieldName);
+
+        // Print the field value
+        print("The value of '$fieldName' is: $fieldValue");
+
+        return fieldValue;
+      } else {
+        print("Document does not exist.");
+        return false;  // Return false if document doesn't exist
+      }
+    } catch (e) {
+      print("Error retrieving field value: $e");
+      return false;  // Return false in case of error
+    }
+  }
+
+
 }

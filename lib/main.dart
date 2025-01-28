@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
       locale: Locale("ar", "AR"),
       theme: ThemeData(
         primarySwatch: Colors.blue,
+
       ),
       title: 'Tanmia App',
     );

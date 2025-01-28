@@ -116,6 +116,7 @@ class _MyDeliveries_Screen extends State<MyDeliveries_Screen> {
                           }).toList();
 
                           return ListView.separated(
+                            reverse: true,
                             itemBuilder: (context, index) {
                               String key = filteredData[index].key;
                               Map<dynamic, dynamic> value = filteredData[index].value as Map<dynamic, dynamic>;

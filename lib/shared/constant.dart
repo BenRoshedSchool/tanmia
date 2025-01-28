@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,19 +19,19 @@ export 'constant_web.dart' if (dart.library.html) 'constant_mobile.dart';
 class Constant{
 
   static List<String> shoab = ["حي أبو بكر و الرحمة" , "حي أبو عبيدة" , "حي الأنصار الغربية" , "حي الأنصار الشرقية" , "حي الفاروق" , "حي السوارحة" ,  "حي طيبة"];
-  static List<String> manadeebList =
-    ["عبد نطط" , "عمرو سالم" , "محمد التعبان" ,
-    "زهير نصار" , "أحمد أبو سويرح" ,
-    "أحمد سلطان" , "أسعد عيد" ,
-    "ابراهيم زقوت" , "بسام الخطيب" ,
-    "خليل اسعيفان" , "ابراهيم زقوت الرواد" ,
-    "سلمان التعبان" , "شادي أبو ركاب" ,
-    "علي العرمي" , "محمد القرعان" ,
-    "مازن أبو نحل" , "محمد النمروطي" ,
-    "محمد الحميدي" , "محمد قشلان" ,
-    "مهند أبو سماحة" ,
-    "مزيد محمود أبو مزيد" , "مصطفى عياش"  , "أبو راشد",
-  ];
+  // static List<String> manadeebList =
+  //   ["عبد نطط" , "عمرو سالم" , "محمد التعبان" ,
+  //   "زهير نصار" , "أحمد أبو سويرح" ,
+  //   "أحمد سلطان" , "أسعد عيد" ,
+  //   "ابراهيم زقوت" , "بسام الخطيب" ,
+  //   "خليل اسعيفان" , "ابراهيم زقوت الرواد" ,
+  //   "سلمان التعبان" , "شادي أبو ركاب" ,
+  //   "علي العرمي" , "محمد القرعان" ,
+  //   "مازن أبو نحل" , "محمد النمروطي" ,
+  //   "محمد الحميدي" , "محمد قشلان" ,
+  //   "مهند أبو سماحة" ,
+  //   "مزيد محمود أبو مزيد" , "مصطفى عياش"  , "أبو راشد",
+  // ];
 
   // static List<String> abubakerList = ["عبد نطط" , "عمرو سالم" , "محمد التعبان" ,
   //   "زهير نصار" ,  "ابراهيم زقوت" , "ابراهيم زقوت الرواد" ,
@@ -76,7 +77,6 @@ class Constant{
 
     if (alshoab == "حي أبو بكر و الرحمة") {
 
-      print("شعبة أبو بكر و الرحمة");
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "baker");
 
 
@@ -108,19 +108,19 @@ class Constant{
 
     Stream<Map<String, dynamic>>? userStream;
 
-    if (alshoab == "شعبة أبو بكر و الرحمة") {
+    if (alshoab == "حي أبو بكر و الرحمة") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "baker");
-    } else if (alshoab == "شعبة أبو عبيدة") {
+    } else if (alshoab == "حي أبو عبيدة") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "ubaida");
-    } else if (alshoab == "شعبة الأنصار الغربية") {
+    } else if (alshoab == "حي الأنصار الغربية") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "ansa");
-    } else if (alshoab == "شعبة الأنصار الشرقية") {
+    } else if (alshoab == "حي الأنصار الشرقية") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "ansa2");
-    } else if (alshoab == "شعبة الفاروق") {
+    } else if (alshoab == "حي الفاروق") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "faro");
-    } else if (alshoab == "شعبة السوارحة") {
+    } else if (alshoab == "حي السوارحة") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "saoar");
-    } else if (alshoab == "شعبة طيبة") {
+    } else if (alshoab == "حي طيبة") {
       userStream = firebaseController.getUsersToAdminAccountStream2("man", "taib");
     } else {
       return [];
@@ -212,31 +212,31 @@ class Constant{
             listResult.add(name1);
             switch(sho){
 
-              case "شعبة أبو بكر و الرحمة":
+              case "حي أبو بكر و الرحمة":
                 listResult.add("baker");
                 break;
 
-              case "شعبة أبو عبيدة":
+              case "حي أبو عبيدة":
                 listResult.add("ubaida");
                 break;
 
-              case "شعبة الأنصار الغربية":
+              case "حي الأنصار الغربية":
                 listResult.add("ansa");
                 break;
 
-              case "شعبة الأنصار الشرقية":
+              case "حي الأنصار الشرقية":
                 listResult.add("ansa2");
                 break;
 
-              case "شعبة الفاروق":
+              case "حي الفاروق":
                 listResult.add("faro");
                 break;
 
-              case "شعبة السوارحة":
+              case "حي السوارحة":
                 listResult.add("saoar");
                 break;
 
-              case "شعبة طيبة":
+              case "حي طيبة":
                 listResult.add("taib");
                 break;
             }
@@ -282,5 +282,19 @@ class Constant{
       },
     );
   }
+  static
+  Future<void> makePhoneCall(String phoneNumber) async {
+    final Uri url = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
 
+    try {
+      // Directly launch the URL
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      print("Error making phone call: $e");
+      // Optionally show a message to the user
+    }
+  }
 }

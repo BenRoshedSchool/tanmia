@@ -41,28 +41,29 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
   // Controller for the search field
   TextEditingController searchController = TextEditingController();
   String searchQuery = '';
+  bool isInternet=false;
+  bool canReplac=false;
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
-
     // Listen for changes in the search field
     searchController.addListener(() {
       setState(() {
         searchQuery = searchController.text;
       });
     });
+    checkInter();
+    canReplaceFamily();
 
-    // localDataBaseController.database.personDao.getRecoredRecpients(widget.keys).listen((event) {
-    //
-    //
-    //   for(RecoredRecpients recoredRecpients in event){
-    //     print("PRIMERY Reciving ${recoredRecpients.name1}");
-    //
-    //   }
-    //
-    //
-    // });
+  }
+
+  void checkInter()async{
+
+      isInternet =  await Constant.checkInternetConnection();
+      setState(() {
+
+      });
 
 
   }
@@ -74,7 +75,7 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     print(widget.user);
     return Scaffold(
       appBar: AppBar(
@@ -188,7 +189,12 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
                                     children: [
                                       Text(map!["id1"].toString(), style: TextStyle(fontSize: 16)),
                                       SizedBox(height: 10),
-                                      Text(map!["mobile"].toString(), style: TextStyle(fontSize: 16)),
+                                      InkWell(
+                                        onTap: (){
+                                          Constant.makePhoneCall(map!["mobile"].toString());
+
+                                        },
+                                          child: Text(map!["mobile"].toString(), style: TextStyle(fontSize: 16))),
                                     ],
                                   ),
                                   Expanded(child: SizedBox(width: 10)),
@@ -262,7 +268,10 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
               :
 
               Expanded(
-                child: StreamBuilder<List<Map<String, dynamic>>>(
+
+                child:
+
+                StreamBuilder<List<Map<String, dynamic>>>(
                   stream: localDataBaseController.getRecoredRecpients(widget.keys),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -333,7 +342,12 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
                                     children: [
                                       Text(map!["id1"].toString(), style: TextStyle(fontSize: 16)),
                                       SizedBox(height: 10),
-                                      Text(map!["mobile"].toString(), style: TextStyle(fontSize: 16)),
+                                      InkWell(
+                                          onTap: (){
+                                            Constant.makePhoneCall(map!["mobile"].toString());
+
+                                          },
+                                          child: Text(map!["mobile"].toString(), style: TextStyle(fontSize: 16))),
                                     ],
                                   ),
                                   Expanded(child: SizedBox(width: 10)),
@@ -387,6 +401,10 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
                                             ),
                                           ),
                                           SizedBox(height: 15),
+
+
+                                          //الاستبدال
+                                     canReplac ?
                                           ElevatedButton(
                                             onPressed: () async {
                                               bool isCheck = await   Constant.checkInternetConnection();
@@ -410,7 +428,7 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
                                               }
                                               },
                                             child: Text("استبدال"),
-                                          ),
+                                          ) : SizedBox(),
                                         ],
                                       );
                                     },
@@ -434,5 +452,15 @@ class _DeliverablesrRecoredState extends State<DeliverablesrRecored> {
         ),
       ),
     );
+  }
+
+  void canReplaceFamily() async {
+    // Perform the async operation before calling setState
+    bool result = await firebaseController.getFieldValue("abilityـaddـbeneficiaries", "add", "status");
+
+    // Now update the state with the result
+    setState(() {
+      canReplac = result;  // Update your state with the value
+    });
   }
 }

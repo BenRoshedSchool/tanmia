@@ -126,9 +126,14 @@ class ShowDetails_Screen extends StatelessWidget {
                     children: [
                       Text("رقم الجوال : ", style: TextStyle(fontSize: 20)) ,
                       SizedBox(width: 15) ,
-                      Text("0$phone" ,
-                        style: TextStyle(fontSize: 18),
+                      InkWell(
+                        onTap: (){
+                          Constant.makePhoneCall(phone.toString());
+                        },
+                        child: Text("$phone" ,
+                          style: TextStyle(fontSize: 18),
 
+                        ),
                       ),                  ],
                   ),
 
